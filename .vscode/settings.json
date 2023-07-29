@@ -1,0 +1,5 @@
+{
+    "html.format.templating": true,
+    "html.format.indentInnerHtml": true,
+    "html.format.indentHandlebars": true
+}
