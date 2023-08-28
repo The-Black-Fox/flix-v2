@@ -1,5 +1,7 @@
 class Movie < ApplicationRecord
 
+  RATINGS = %w(G PG PG-13 R NC-17)
+
   def self.released
     Movie.where("released_on <= ?", Time.now).order(released_on: :desc )
   end
@@ -15,7 +17,6 @@ class Movie < ApplicationRecord
     with: /\w+\.(jpg|png)\z/i,
     message: "must be a JPG or PNG image"
   }
-  RATINGS = %w(G PG PG-13 R NC-17)
   validates :rating, inclusion: {
     in: RATINGS,
     message: "must be a valid rating"
