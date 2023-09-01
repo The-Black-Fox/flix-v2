@@ -1,4 +1,4 @@
-<%@reviews.each do |r| %>
+
   <ul class="reviews">
     <% @reviews.each do |review| %>
       <li>
@@ -16,4 +16,6 @@
       </li>
     <% end %>
   </ul>
-<% end %>
+  <section class="admin">
+    <%= link_to "Write Review", new_movie_review_path(@movie) %>
+  </section>
