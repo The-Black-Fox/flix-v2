@@ -9,7 +9,17 @@ class Movie < ApplicationRecord
   end
 
   def flop?
-    total_gross.nil? ||  total_gross.blank? || total_gross < 255_000_000
+    unless reviews.count(:id) > 50 && average_stars >= 4
+      total_gross.nil? ||  total_gross.blank? || total_gross < 255_000_000
+    end
+  end
+
+  def average_stars
+    reviews.average(:stars)|| 0.0
+  end
+
+  def average_stars_as_percent
+    (average_stars / 5) * 100
   end
 
   validates :title, :released_on, :duration, presence: true
