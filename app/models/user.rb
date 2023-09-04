@@ -4,6 +4,10 @@ class User < ApplicationRecord
   validates :email, format: { with: /\S+@\S+/,
     message: "please enter a valid email address" },
     uniqueness: { case_sensitive: false }
+  validates :username,
+    format: { with:  /\A[A-Z0-9]+\z/i ,
+              message: "only allow letters, numbers without spaces." },
+    uniqueness: { case_sensitive: false }
   validates :password, length: { minimum: 10, allow_blank: true }
 
   def gravatar_id
