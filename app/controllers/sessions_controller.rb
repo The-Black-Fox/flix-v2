@@ -4,8 +4,10 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @UserArray = User.where(email: params[:email_or_username]).or(User.where(username: params[:email_or_username]))
-    @user = @UserArray[0]
+  #  @UserArray = User.where(email: params[:email_or_username]).or(User.where(username: params[:email_or_username]))
+  #  @user = @UserArray[0]
+    @user = User.find_by(email: params[:email_or_username]) ||
+      User.find_by(username: params[:email_or_username])
     if @user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
       redirect_to( session[:intended_url] || @user, notice: "Welcome back! #{@user.name}")
