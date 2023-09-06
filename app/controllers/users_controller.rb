@@ -1,4 +1,9 @@
 class UsersController < ApplicationController
+
+  before_action :require_signin, except: [:new, :create]
+  before_action :require_correct_user, only: [:edit, :update, :destroy]
+
+
   def index
     @users = User.all
   end
@@ -22,12 +27,11 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
+    # user find action is done in private method that runs before the edit view action is called.
   end
 
   def update
     fail
-    @user = User.find(params[:id])
     if @user.update(user_params)
       redirect_to(@user, notice: "User succesfully Updated!")
     else
@@ -36,7 +40,6 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
     @user.destroy
     session[:user_id] = nil
     redirect_to(@user, alert: "UsAccounter succesfully deleted!")
@@ -47,5 +50,12 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user)
       .permit(:name, :username, :email, :password, :password_confirmation)
+  end
+
+  def require_correct_user
+    @user = User.find(params[:id])
+    unless current_user
+      redirect_to root_path	, status: :see_other,  alert: "Error, user not authorized for this action"
+    end
   end
 end
