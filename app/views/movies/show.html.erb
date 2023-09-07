@@ -9,7 +9,7 @@
     </h2>
     <div class="reviews">
       <%= render"shared/stars", percent: @movie.average_stars_as_percent %>
-      <%= link_to pluralize(@movie.reviews.size, "review"),
+      <%= link_to pluralize((@movie.reviews.size - 1), "review"),
                     movie_reviews_path(@movie) %>
     </div>
     <p>
@@ -39,7 +39,7 @@
     <%= link_to "Delete", movie_path(@movie), class: "button",
           data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
   </section>
-<% end %>
+  <% end %>
 <section>
   <%= render "/reviews/form", movie: @movie, review: @movie.reviews.new %>
 </section>
