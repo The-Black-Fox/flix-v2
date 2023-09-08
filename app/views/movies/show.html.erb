@@ -53,6 +53,12 @@
         <% end %>
       </ul>
     <% end %>
+    <% if @genres.present?%>
+      <h4>Genres</h4>
+      <% @genres.each do |g|%>
+        <%= g.name %>
+      <% end %>
+    <% end %>
   </aside>
 </section>
 <% if current_user_admin?%>

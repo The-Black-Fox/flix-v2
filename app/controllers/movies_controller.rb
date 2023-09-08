@@ -2,6 +2,7 @@ class MoviesController < ApplicationController
 
   before_action :require_signin, except: [:index, :show]
   before_action :require_admin, except: [:index, :show]
+  before_action :all_movie_genres, only: [:create, :edit]
 
   def index
     @movies = Movie.released
@@ -9,6 +10,7 @@ class MoviesController < ApplicationController
 
   def show
     @movie = Movie.find(params[:id])
+    @genres = @movie.genres.order(:name)
     @review = @movie.reviews.new
     @fans = @movie.fans
     if current_user
@@ -53,6 +55,10 @@ private
   def movie_params
     params.require(:movie)
       .permit(:title, :description, :rating, :released_on, :total_gross, :director,
-              :duration, :image_file_name)
+              :duration, :image_file_name, genre_ids: [])
+  end
+
+  def all_movie_genres
+    @all_genres = Genre.all.order(:name)
   end
 end

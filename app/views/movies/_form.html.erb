@@ -17,5 +17,9 @@
   <%= f.number_field :total_gross %>
   <%= f.label :image_file_name%>
   <%= f.text_field :image_file_name%>
+  <%= f.label :genres %>
+  <div class="checkboxes">
+    <%= f.collection_check_boxes :genre_ids, @all_genres, :id, :name %>
+  </div>
   <%= f.submit %>
 <%end%>
