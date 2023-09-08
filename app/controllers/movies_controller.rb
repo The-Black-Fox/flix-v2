@@ -5,7 +5,20 @@ class MoviesController < ApplicationController
   before_action :all_movie_genres, only: [:create, :edit]
 
   def index
-    @movies = Movie.released
+    @movies = case params[:filter]
+    when "released"
+      Movie.released
+    when "upcoming"
+      Movie.upcoming
+    when "recent"
+      Movie.recent
+    when "flops"
+      Movie.flops
+    when "hits"
+      Movie.hits
+    else
+      Movie.released
+    end
   end
 
   def show

@@ -7,12 +7,13 @@ class Movie < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :fans, through: :favorites, source: :user
 
-
   RATINGS = %w(G PG PG-13 R NC-17)
 
-  def self.released
-    Movie.where("released_on <= ?", Time.now).order(released_on: :desc )
-  end
+  scope :released, -> {where("released_on <= ?", Time.now).order(released_on: :desc)}
+  scope :upcoming, -> {where("released_on > ?", Time.now).order(released_on: :desc)}
+  scope :recent, -> (max=5) {released.limit(max)}
+  scope :hits, -> {released.where("total_gross >= 300000000").order(total_gross: :desc)}
+  scope :flops, -> {where("total_gross <= 255000000").order(total_gross: :desc)}
 
   def flop?
     unless reviews.count(:id) > 50 && average_stars >= 4

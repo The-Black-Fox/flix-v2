@@ -5,6 +5,8 @@ class Review < ApplicationRecord
 
   STARS = [1,2,3,4,5]
 
+  scope :past_n_days, -> (n=5) {where("created_at >= ?", n.days.ago)}
+
   validates :comment, length: { minimum: 4 }
   validates :stars, inclusion: {
     in: STARS,
