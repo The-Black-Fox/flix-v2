@@ -19,9 +19,27 @@ class User < ApplicationRecord
   scope :admin, ->{where(admin: true)}
   scope :not_admin, ->{where(admin: false)}
 
+  before_save :set_lower_case_username
+  before_save :set_lower_case_email
 
   def gravatar_id
     Digest::MD5::hexdigest(email.downcase)
   end
+
+
+  def to_param
+    username
+  end
+
+  private
+
+  def set_lower_case_username
+    self.username = username.downcase
+  end
+
+  def set_lower_case_email
+    self.email = email.downcase
+  end
+
 
 end

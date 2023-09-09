@@ -2,7 +2,8 @@ class MoviesController < ApplicationController
 
   before_action :require_signin, except: [:index, :show]
   before_action :require_admin, except: [:index, :show]
-  before_action :all_movie_genres, only: [:create, :edit]
+  before_action :all_movie_genres, only: [:create, :edit, :new]
+  before_action :find_movie, except: [:index, :new]
 
   def index
     @movies = case params[:filter]
@@ -22,7 +23,7 @@ class MoviesController < ApplicationController
   end
 
   def show
-    @movie = Movie.find(params[:id])
+
     @genres = @movie.genres.order(:name)
     @review = @movie.reviews.new
     @fans = @movie.fans
@@ -32,11 +33,9 @@ class MoviesController < ApplicationController
   end
 
   def edit
-    @movie = Movie.find(params[:id])
   end
 
   def update
-    @movie = Movie.find(params[:id])
     if @movie.update(movie_params)
       redirect_to @movie, notice: "Movie succesfully updated!"
     else
@@ -64,6 +63,10 @@ class MoviesController < ApplicationController
   end
 
 private
+
+  def find_movie
+    @movie = Movie.find_by(slug: params[:id])
+  end
 
   def movie_params
     params.require(:movie)

@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   before_action :require_signin, except: [:new, :create]
   before_action :require_correct_user, only: [:edit, :update]
   before_action :require_admin, only: :destroy
+  before_action :find_user, only: [:destroy, :show]
 
 
   def index
@@ -10,7 +11,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
     @reviews = @user.reviews
     @favorite_movies = @user.favorite_movies
   end
@@ -43,7 +43,6 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
     @user.destroy
     if @user.id == session[:user_id]
       session[:user_id] = nil
@@ -56,15 +55,21 @@ class UsersController < ApplicationController
 
   private
 
+
   def user_params
     params.require(:user)
       .permit(:name, :username, :email, :password, :password_confirmation)
   end
 
   def require_correct_user
-    @user = User.find(params[:id])
+    find_user
     unless current_user
       redirect_to root_path	, status: :see_other,  alert: "Error, user not authorized for this action"
     end
   end
+
+  def find_user
+    @user = User.find_by(username: params[:id])
+  end
+
 end
