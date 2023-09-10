@@ -15,8 +15,8 @@
   <%= f.date_field  :released_on %>
   <%= f.label :total_gross %>
   <%= f.number_field :total_gross %>
-  <%= f.label :image_file_name%>
-  <%= f.text_field :image_file_name%>
+  <%= f.label :main_image %>
+  <%= f.file_field :main_image %>
   <%= f.label :genres %>
   <div class="checkboxes">
     <%= f.collection_check_boxes :genre_ids, @all_genres, :id, :name %>

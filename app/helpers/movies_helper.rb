@@ -19,4 +19,14 @@ module MoviesHelper
       tag.li link_to(name, route_helper)
     end
   end
+
+
+  def main_image(object)
+    if object.main_image.attached?
+      image_tag(object.main_image)
+    else
+      image_tag("placeholder.png")
+    end
+  end
+
 end
