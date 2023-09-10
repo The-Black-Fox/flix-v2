@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_08_231540) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_09_180929) do
   create_table "characterizations", force: :cascade do |t|
     t.integer "movie_id", null: false
     t.integer "genre_id", null: false
@@ -45,7 +45,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_08_231540) do
     t.date "released_on"
     t.string "director"
     t.string "duration"
-    t.string "image_file_name", default: "placeholder.png"
     t.string "slug"
   end
 
